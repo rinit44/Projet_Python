@@ -9,17 +9,14 @@
 **Dual Uno**
 
 ## Description
-Dual Uno est un jeu de Uno qui se joue sur **deux postes différents via un serveur sur le réseau local**. Le jeu respecte les règles classiques du Uno et permet une expérience multijoueur simple et interactive.
+Dual Uno est un jeu de Uno qui se joue sur **deux postes différents via un serveur sur le réseau local**
 
 ## Fonctionnalités
 - Gestion des **7 cartes initiales** pour chaque joueur.
-- Respect des **règles officielles du Uno** :  
-  [Règles officielles du Uno](https://www.jeuxuno.com/regles-officielles)
-- Gestion des **cartes spéciales** : +2, +4, etc.
+- [Règles officielles du Uno](https://www.jeuxuno.com/regles-officielles)
+- Gestion des **cartes spéciales** : +2, +4
 - Affichage **graphique avec Pygame** pour les cartes et le plateau.
 - Carte centrale affichée au centre du plateau.
-- Overlay noir semi-transparent pour **une meilleure lisibilité des numéros**.
-- Support pour les cartes de couleur et spéciales avec leurs effets.
 
 ## Scénario d'utilisation
 1. Chaque joueur reçoit **7 cartes choisies aléatoirement** dans la pioche, toutes couleurs et valeurs confondues.  
@@ -29,7 +26,5 @@ Dual Uno est un jeu de Uno qui se joue sur **deux postes différents via un serv
 5. Exemple : Si la carte du dessus de la défausse est **Rouge 5**, le joueur peut jouer **toute carte Rouge** ou **toute carte 5**, ou une carte spéciale compatible.
 
 ## Dépendances
-Avant de lancer le jeu, installez **Pygame** :  
-
 ```bash
 pip install pygame
