@@ -9,12 +9,12 @@ ValueList = ["1","2","3","4","5","6","7","8","9"]
 ColorList =["Rouge","Vert","Bleu","Jaune"]
 
 def playerCards():
-   hand = [] # liste vide pour stocker les cartes
-   for i in range(7):
-       color = random.choice(ColorList)
-       value = random.choice(ValueList)
-       card = (color, value)
-       hand.append(card)
+    hand = []  # liste vide pour stocker les cartes
+    for i in range(7):
+        color = random.choice(ColorList)
+        value = random.choice(ValueList)
+        card = (color, value)
+        hand.append(card)
     return hand
        
 player1 = playerCards()
