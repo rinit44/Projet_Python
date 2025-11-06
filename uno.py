@@ -17,8 +17,10 @@ choix = input("Votre choix : ")
 
 if choix == "1":
     MODE = "host"
+    host = socket.gethostbyname(socket.gethostname())
     HOST_IP = "0.0.0.0"
     PORT = 5000
+    print(f"Adresse IP du serveur : {host}")
 elif choix == "2":
     MODE = "client"
     HOST_IP = input("IP du serveur : ")
