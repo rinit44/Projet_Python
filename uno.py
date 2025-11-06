@@ -2,23 +2,75 @@ import pygame
 import sys
 import random
 import os
+import socket
+import threading
+import json
 
+# -----------------------------------------------------------
+# Menu pour ce connecter au réseai
+# -----------------------------------------------------------
+print("=== UNO LAN ===")
+print("1) Héberger une partie")
+print("2) Se connecter à une partie")
+
+choix = input("Votre choix : ")
+
+if choix == "1":
+    MODE = "host"
+    HOST_IP = "0.0.0.0"
+    PORT = 5000
+elif choix == "2":
+    MODE = "client"
+    HOST_IP = input("IP du serveur : ")
+    PORT = 5000
+else:
+    print("Choix invalide.")
+    sys.exit()
+
+# -----------------------------------------------------------
+# CHAT GPT => Socket pour sycro les carte 
+# -----------------------------------------------------------
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+def send_json(data):
+    sock.send(json.dumps(data).encode() + b"\n")
+
+def recv_json():
+    data = sock.recv(4096).decode().strip()
+    return json.loads(data)
+
+
+if MODE == "host":
+    sock.bind((HOST_IP, PORT))
+    sock.listen()
+    print("En attente du joueur...")
+    conn, addr = sock.accept()
+    sock = conn
+    player_id = 1
+else:
+    sock.connect((HOST_IP, PORT))
+    player_id = 2
+
+# -----------------------------------------------------------
+# START LE FICHIER PYTHON 
+# -----------------------------------------------------------
 pygame.init()
-LARGEUR, HAUTEUR = 800, 1200
+LARGEUR, HAUTEUR = 800, 1000
 fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
-pygame.display.set_caption("Uno Simple")
+pygame.display.set_caption("Uno LAN")
 font = pygame.font.Font(None, 36)
 BG_COLOR = (50, 143, 168)
 
-# Liste des carte 
+# -----------------------------------------------------------
+#  STOCKET LES CARTE 
+# -----------------------------------------------------------
 COULEURS = ["Rouge", "Bleu", "Vert", "Jaune"]
 VALEURS = ["1","2","3","4","5","6","7","8","9"]
-SPECIALS = ["+2","+4"]
+SPECIALS = ["+2", "+4"]
 
-# Stocker les images des catre 
 images_cartes = {}
 
-# charger les img 
 for couleur in COULEURS + ["Spéciale"]:
     images_cartes[couleur] = {}
     folder = f"img/{couleur.lower()}" if couleur != "Spéciale" else "img/special"
@@ -30,11 +82,9 @@ for couleur in COULEURS + ["Spéciale"]:
                 img = pygame.image.load(chemin).convert_alpha()
                 images_cartes[couleur][nom_carte] = pygame.transform.smoothscale(img, (100, 150))
 
-# charger image pour la pioche au centre 
 pioche_img = None
-pioche_chemain = "img/logo.png"
-if os.path.exists(pioche_chemain):
-    img = pygame.image.load(pioche_chemain).convert_alpha()
+if os.path.exists("img/logo.png"):
+    img = pygame.image.load("img/logo.png").convert_alpha()
     pioche_img = pygame.transform.smoothscale(img, (100, 150))
 
 
@@ -47,16 +97,12 @@ def generer_main():
         couleur = random.choice(COULEURS)
         valeur = random.choice(VALEURS)
         main.append({"couleur": couleur, "carte": valeur})
-
     random.shuffle(main)
     return main
 
 def generer_carte_centrale():
     valeur = random.choice(VALEURS + SPECIALS)
-    if valeur in SPECIALS:
-        couleur = "Spéciale"
-    else:
-        couleur = random.choice(COULEURS)
+    couleur = "Spéciale" if valeur in SPECIALS else random.choice(COULEURS)
     return {"couleur": couleur, "carte": valeur}
 
 def draw_carte(carte, x, y):
@@ -69,12 +115,30 @@ def draw_carte(carte, x, y):
         text = font.render(valeur, True, (0,0,0))
         fenetre.blit(text, (x+20, y+60))
 
-# stocker carte des joueurs et la carte centreal 
-user1 = generer_main()
-user2 = generer_main()
-central = generer_carte_centrale()
+# -----------------------------------------------------------
+# # ENCOYER LES CARTE SUR LES DEUX POST 
+# -----------------------------------------------------------
 
-#bocule prcpl 
+if player_id == 1:
+    user1 = generer_main()
+    user2 = generer_main()
+    central = generer_carte_centrale()
+
+    send_json({
+        "user1": user1,
+        "user2": user2,
+        "central": central
+    })
+else:
+    data = recv_json()
+    user1 = data["user1"]
+    user2 = data["user2"]
+    central = data["central"]
+
+# -----------------------------------------------------------
+# # Garder la fenêtre ouverte
+# -----------------------------------------------------------
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -83,27 +147,36 @@ while True:
 
     fenetre.fill(BG_COLOR)
 
-    # afficher carte du plyr 1 
-    x = 20
-    y = 20
-    for carte in user1:
-        draw_carte(carte, x, y)
-        x += 110
+    # -----------------------------------------------------------
+    # voir les même carte 
+    # -----------------------------------------------------------
 
-    # afficher carte du plyr 2 
-    x = 20
-    y = HAUTEUR - 170
-    for carte in user2:
-        draw_carte(carte, x, y)
-        x += 110
+    if player_id == 1:
+        x, y = 20, 20
+        for carte in user1:
+            draw_carte(carte, x, y)
+            x += 110
+        x, y = 20, HAUTEUR - 170
+        for _ in user2:
+            fenetre.blit(pioche_img, (x, y))
+            x += 110
 
-    # afficher carte du ceentre 
+    else:
+        x, y = 20, HAUTEUR - 170
+        for carte in user2:
+            draw_carte(carte, x, y)
+            x += 110
+        x, y = 20, 20
+        for _ in user1:
+            fenetre.blit(pioche_img, (x, y))
+            x += 110
+    # Carte de pioche centrale
     central_x = (LARGEUR - 100)//2
     central_y = (HAUTEUR - 150)//2
     draw_carte(central, central_x, central_y)
 
-    # afficher carte de pioche 
+    # Pioche
     if pioche_img:
-        fenetre.blit(pioche_img, (central_x - 130, central_y))  # 130 px à gauche de la centrale
+        fenetre.blit(pioche_img, (central_x - 130, central_y))
 
     pygame.display.flip()
