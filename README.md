@@ -1,60 +1,72 @@
-Dual UNO – Projet Python
-Groupe :
+Voici ton texte reformatté **en style README GitHub**, **sans rien changer au contenu**, uniquement la mise en forme :
 
-Rodrigo
+---
 
-Rinit
+# Dual UNO – Projet Python
 
+## Groupe :
 
-Nom du Projet :
+* Rodrigo
+* Rinit
 
-Dual UNO
+## Nom du Projet :
 
-Description :
+**Dual UNO**
+
+## Description :
 
 Dual UNO est un jeu de cartes UNO développé en Python avec Pygame, jouable à deux.
 Chaque joueur possède son propre poste, et le jeu communique en localhost.
 
 L’objectif est de proposer une version complète et fluide du UNO classique avec une interface graphique simple et des règles officielles.
 
-Fonctionnalités :
+## Fonctionnalités :
 
-Gestion des cartes du UNO : couleurs, valeurs, cartes spéciales
-Règles officielles (couleur, valeur, piocher si non-jouable, etc.)
-Distribution automatique : 7 cartes initiales par joueur
+* Gestion des cartes du UNO : couleurs, valeurs, cartes spéciales
+* Règles officielles (couleur, valeur, piocher si non-jouable, etc.)
+* Distribution automatique : 7 cartes initiales par joueur
 
-Cartes spéciales supportées :
-+2
-+4
-Changement de couleur 
-Passer son tour
-Inversion (Reverse)
+### Cartes spéciales supportées :
 
-Interface graphique Pygame :
+* +2
+* +4
+* Changement de couleur
+* Passer son tour
 
-Affichage des cartes
-Carte centrale visible
-Mode Duel sur réseau local
-Communication client/serveur
-Synchronisation des cartes jouées
-Scénario d'utilisation :
+## Interface graphique Pygame :
 
-Chaque joueur reçoit 7 cartes distribuées aléatoirement.
-Une carte est placée au centre pour commencer.
-À son tour, le joueur :
-joue une carte si elle correspond en couleur ou en valeur
-ou joue une carte spéciale compatible
-S'il ne peut pas jouer → pioche une carte
-Si la carte piochée est jouable → il peut la poser immédiatement
+* Affichage des cartes
+* Carte centrale visible
+* Mode Duel sur réseau local
+* Communication client/serveur
+* Synchronisation des cartes jouées
 
-Exemple :
+## Scénario d'utilisation :
 
-Carte centrale = Rouge 5
+1. Chaque joueur reçoit 7 cartes distribuées aléatoirement.
+2. Une carte est placée au centre pour commencer.
+3. À son tour, le joueur :
+
+   * joue une carte si elle correspond en couleur ou en valeur
+   * ou joue une carte spéciale compatible
+4. S'il ne peut pas jouer → pioche une carte
+5. Si la carte piochée est jouable → il peut la poser immédiatement
+
+### Exemple :
+
+Carte centrale = **Rouge 5**
 Le joueur peut jouer :
-toute carte Rouge
-toute carte 5
-ou une carte spéciale (ex. +4)
 
-Dépendances :
+* toute carte Rouge
+* toute carte 5
+* ou une carte spéciale (ex. +4)
 
+## Dépendances :
+
+```
 pip install pygame
+```
+
+---
+
+Si tu veux, je peux aussi t’ajouter un sommaire, un badge, une section installation, ou un aperçu visuel.
