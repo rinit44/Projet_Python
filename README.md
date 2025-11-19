@@ -55,6 +55,6 @@ toute carte Rouge
 toute carte 5
 ou une carte spéciale (ex. +4)
 
-Dépendances
+Dépendances :
 
 pip install pygame
