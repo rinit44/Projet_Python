@@ -1,30 +1,56 @@
-# Projet_Python
+Dual UNO – Projet Python
+Groupe :
 
-## Groupe
-- Rodrigo
-- Rinit
-- ... 
+Rodrigo
 
-## Nom du Projet
-**Dual Uno**
+Rinit
 
-## Description
-Dual Uno est un jeu de Uno qui se joue sur **deux postes différents via un serveur sur le réseau local**
 
-## Fonctionnalités
-- Gestion des **7 cartes initiales** pour chaque joueur.
-- [Règles officielles du Uno](https://www.jeuxuno.com/regles-officielles)
-- Gestion des **cartes spéciales** : +2, +4
-- Affichage **graphique avec Pygame** pour les cartes et le plateau.
-- Carte centrale affichée au centre du plateau.
+Nom du Projet :
 
-## Scénario d'utilisation
-1. Chaque joueur reçoit **7 cartes choisies aléatoirement** dans la pioche, toutes couleurs et valeurs confondues.  
-2. Le joueur peut **poser une carte** si elle correspond en couleur ou en valeur à la carte sur le dessus du tas de défausse.  
-3. Sinon, le joueur **pioche une carte**.  
-4. Si la carte piochée est jouable, le joueur peut la **poser immédiatement**.  
-5. Exemple : Si la carte du dessus de la défausse est **Rouge 5**, le joueur peut jouer **toute carte Rouge** ou **toute carte 5**, ou une carte spéciale compatible.
+Dual UNO
 
-## Dépendances
-```bash
-pip install pygame
+Description :
+
+Dual UNO est un jeu de cartes UNO développé en Python avec Pygame, jouable à deux.
+Chaque joueur possède son propre poste, et le jeu communique via un serveur local (LAN).
+
+L’objectif est de proposer une version complète et fluide du UNO classique avec une interface graphique simple et des règles officielles.
+
+Fonctionnalités :
+
+Gestion des cartes du UNO : couleurs, valeurs, cartes spéciales
+Règles officielles (couleur, valeur, piocher si non-jouable, etc.)
+Distribution automatique : 7 cartes initiales par joueur
+
+Cartes spéciales supportées :
++2
++4
+Changement de couleur 
+Passer son tour
+Inversion (Reverse)
+
+Interface graphique Pygame :
+
+Affichage des cartes
+Carte centrale visible
+Mode Duel sur réseau local
+Communication client/serveur
+Synchronisation des cartes jouées
+Scénario d'utilisation :
+
+Chaque joueur reçoit 7 cartes distribuées aléatoirement.
+Une carte est placée au centre pour commencer.
+À son tour, le joueur :
+joue une carte si elle correspond en couleur ou en valeur
+ou joue une carte spéciale compatible
+S'il ne peut pas jouer → pioche une carte
+Si la carte piochée est jouable → il peut la poser immédiatement
+
+Exemple :
+
+Carte centrale = Rouge 5
+Le joueur peut jouer :
+toute carte Rouge
+toute carte 5
+ou une carte spéciale (ex. +4)
