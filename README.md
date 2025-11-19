@@ -54,3 +54,7 @@ Le joueur peut jouer :
 toute carte Rouge
 toute carte 5
 ou une carte spéciale (ex. +4)
+
+Dépendances
+
+pip install pygame
