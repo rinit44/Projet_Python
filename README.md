@@ -52,6 +52,11 @@ L’objectif est de proposer une version complète et fluide du UNO classique av
 4. S'il ne peut pas jouer → pioche une carte
 5. Si la carte piochée est jouable → il peut la poser immédiatement
 
+
+### Diagramme de flux :
+
+(https://github.com/rinit44/Projet_Python/blob/main/MA-24_UNO_projet_python.drawio)
+
 ### Exemple :
 
 Carte centrale = **Rouge 5**
