@@ -69,4 +69,3 @@ pip install pygame
 
 ---
 
-Si tu veux, je peux aussi t’ajouter un sommaire, un badge, une section installation, ou un aperçu visuel.
