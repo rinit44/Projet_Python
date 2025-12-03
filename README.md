@@ -1,12 +1,8 @@
-Voici ton texte reformatté **en style README GitHub**, **sans rien changer au contenu**, uniquement la mise en forme :
-
----
-
 # Dual UNO – Projet Python
 
 ## Groupe :
 
-* Rodrigo
+* Rodrigo Fernandes Valente
 * Rinit
 
 ## Nom du Projet :
@@ -32,6 +28,7 @@ L’objectif est de proposer une version complète et fluide du UNO classique av
 * +4
 * Changement de couleur
 * Passer son tour
+* !!! la carte spécial changer de sens n'a volontairement pas été mise car on a trouvé que ça n'avait pas de sens étant donner que le jeu et fait pour 2 joueurs.
 
 ## Interface graphique Pygame :
 
