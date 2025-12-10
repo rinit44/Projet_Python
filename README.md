@@ -11,8 +11,7 @@
 
 ## Description :
 
-Dual UNO est un jeu de cartes UNO développé en Python avec Pygame, jouable à deux.
-Chaque joueur possède son propre poste, et le jeu communique en localhost.
+Dual UNO est un jeu de cartes UNO développé en Python avec Pygame, jouable à deux sur le même pc.
 
 L’objectif est de proposer une version complète et fluide du UNO classique avec une interface graphique simple et des règles officielles.
 
