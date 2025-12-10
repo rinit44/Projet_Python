@@ -33,9 +33,7 @@ L’objectif est de proposer une version complète et fluide du UNO classique av
 
 * Affichage des cartes
 * Carte centrale visible
-* Mode Duel sur réseau local
-* Communication client/serveur
-* Synchronisation des cartes jouées
+* Mode Duel avec affichage de chaque deck selon le joueur
 
 ## Scénario d'utilisation :
 
