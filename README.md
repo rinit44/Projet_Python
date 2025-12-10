@@ -3,7 +3,7 @@
 ## Groupe :
 
 * Rodrigo Fernandes Valente
-* Rinit
+* Rinit Krasniqi
 
 ## Nom du Projet :
 
