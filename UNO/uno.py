@@ -262,8 +262,8 @@ def run_game():
         # Player buttons
         pygame.draw.rect(screen, (70,70,200), btn_player0)
         pygame.draw.rect(screen, (200,70,70), btn_player1)
-        screen.blit(font.render('Player 1', True, (255,255,255)), (btn_player0.x+10, btn_player0.y+10))
-        screen.blit(font.render('Player 2', True, (255,255,255)), (btn_player1.x+10, btn_player1.y+10))
+        screen.blit(font.render('Joueur 1', True, (255,255,255)), (btn_player0.x+10, btn_player0.y+10))
+        screen.blit(font.render('Joueur 2', True, (255,255,255)), (btn_player1.x+10, btn_player1.y+10))
 
         # Quit button
         pygame.draw.rect(screen, (200,0,0), btn_quit)
@@ -273,7 +273,7 @@ def run_game():
         if state.top_card:
             top_surf = draw_card_surface(state.top_card)
             screen.blit(top_surf, (SCREEN_W//2 - CARD_W//2, SCREEN_H//2 - CARD_H//2))
-            screen.blit(font.render(f'Current color: {state.current_color}', True, (255,255,255)), (SCREEN_W//2 - 80, SCREEN_H//2 + CARD_H//2 + 6))
+            screen.blit(font.render(f'Couleur actuelle: {state.current_color}', True, (255,255,255)), (SCREEN_W//2 - 80, SCREEN_H//2 + CARD_H//2 + 6))
 
         # Active player's hand
         if show_hand:
