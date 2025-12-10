@@ -116,7 +116,7 @@ class GameState:
 
         # Check if card is playable
         if not card.matches(self.top_card, self.current_color):
-            return False, 'Card not playable'
+            return False, 'Carte non jouable'
 
         # Play card
         self.hands[player].pop(card_index)
@@ -126,15 +126,15 @@ class GameState:
 
         # Special effects
         if card.value == 'Skip':
-            self.message = f"Player {player + 1} à joué skip"
+            self.message = f"Joueur {player + 1} à joué skip"
         elif card.value == '+2':
             self.pending_draw += 2
             self.current_player = (self.current_player + 1) % 2
-            self.message = f"Player {self.current_player + 1} doit piocher 2 cartes"
+            self.message = f"Joueur {self.current_player + 1} doit piocher 2 cartes"
         elif card.value == 'Wild+4':
             self.pending_draw += 4
             self.current_player = (self.current_player + 1) % 2
-            self.message = f"Player {self.current_player + 1} doit piocher 4 cartes"
+            self.message = f"Joueur {self.current_player + 1} doit piocher 4 cartes"
         else:
             # Normal turn switch
             self.current_player = (self.current_player + 1) % 2
