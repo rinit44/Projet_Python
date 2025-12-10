@@ -80,7 +80,13 @@ class GameState:
         self.winner = None
         self.pending_draw = 0
         self.message = ''
-
+        
+    def has_playable_card(self, player):
+        for card in self.hands[player]:
+            if card.matches(self.top_card, self.current_color):
+                return True
+        return False
+        
     def start(self):
         # Deal initial hands
         for i in range(2):
@@ -127,14 +133,15 @@ class GameState:
         # Special effects
         if card.value == 'Skip':
             self.message = f"Joueur {player + 1} à joué skip"
+            self.current_player = (self.current_player + 1) % 2
         elif card.value == '+2':
             self.pending_draw += 2
+            self.message = f"Joueur {(player + 1) % 2 + 1} doit piocher 2 cartes"
             self.current_player = (self.current_player + 1) % 2
-            self.message = f"Joueur {self.current_player + 1} doit piocher 2 cartes"
         elif card.value == 'Wild+4':
             self.pending_draw += 4
+            self.message = f"Joueur {(player + 1) % 2 + 1} doit piocher 4 cartes"
             self.current_player = (self.current_player + 1) % 2
-            self.message = f"Joueur {self.current_player + 1} doit piocher 4 cartes"
         else:
             # Normal turn switch
             self.current_player = (self.current_player + 1) % 2
@@ -159,7 +166,7 @@ class GameState:
         drawn = self.deck.draw(n)
         self.hands[player].extend(drawn)
         self.current_player = (self.current_player + 1) % 2
-        self.message = f"{len(drawn)} cartes tirées"
+        self.message = f"Joueur {player + 1}: {len(drawn)} cartes tirées"
         return True, f'{len(drawn)} cartes tirée'
 
 # -------------------- Pygame UI --------------------
@@ -178,11 +185,9 @@ def draw_card_surface(card):
         pygame.draw.rect(surf, color_map.get(card.color,(200,200,200)), (0,0,CARD_W,CARD_H), border_radius=6)
         text = card.value
     font = pygame.font.SysFont(None, 24)
-    txt = font.render(text, True, (0,0,0))
+    txt = font.render(text, True, (255,255,255))
     surf.blit(txt, (6,6))
     return surf
-
-# ... (all previous code stays identical up to run_game)
 
 def run_game():
     pygame.init()
@@ -201,7 +206,8 @@ def run_game():
     font = pygame.font.SysFont(None, 36)
     btn_player0 = pygame.Rect(50, SCREEN_H//2 - 25, 150, 50)
     btn_player1 = pygame.Rect(SCREEN_W - 200, SCREEN_H//2 - 25, 150, 50)
-    btn_quit = pygame.Rect(SCREEN_W - 110, 10, 100, 40)  # Quit button
+    btn_quit = pygame.Rect(SCREEN_W - 110, 10, 100, 40)
+    btn_draw = pygame.Rect(SCREEN_W//2 - 75, SCREEN_H - 180, 150, 40)
 
     while running:
         clock.tick(30)
@@ -223,41 +229,47 @@ def run_game():
                 elif btn_player1.collidepoint(mx,my) and state.current_player == 1:
                     show_hand = True
 
+                # Draw button
+                if show_hand and btn_draw.collidepoint(mx,my):
+                    if state.pending_draw > 0:
+                        state.draw_cards(state.current_player)
+                        show_hand = False
+                    elif not state.has_playable_card(state.current_player):
+                        state.draw_cards(state.current_player)
+                        show_hand = False
+                    else:
+                        state.message = "Vous avez des cartes jouables!"
+
                 # Hand interaction
                 if show_hand:
                     hand = state.hands[state.current_player]
-                    # Must draw penalty cards first
-                    if state.pending_draw > 0:
-                        state.draw_cards(state.current_player, state.pending_draw)
-                        show_hand = False
-                    else:
-                        # Detect clicked card
-                        start_x = (SCREEN_W - len(hand)*(CARD_W+10))//2
-                        for i, card in enumerate(hand):
-                            rect = pygame.Rect(start_x + i*(CARD_W+10), SCREEN_H - CARD_H - 20, CARD_W, CARD_H)
-                            if rect.collidepoint(mx, my):
-                                if card.is_wild():
-                                    selected_idx = i
-                                    state.message = 'Choisissez une couleur: R G B Y'
-                                elif card.matches(state.top_card, state.current_color):
-                                    state.play_card(state.current_player, i)
+
+                    # Detect clicked card
+                    start_x = (SCREEN_W - len(hand)*(CARD_W+10))//2
+                    for i, card in enumerate(hand):
+                        rect = pygame.Rect(start_x + i*(CARD_W+10), SCREEN_H - CARD_H - 20, CARD_W, CARD_H)
+                        if rect.collidepoint(mx, my):
+                            if card.is_wild():
+                                selected_idx = i
+                                state.message = 'Choisissez une couleur: R G B Y'
+                            elif card.matches(state.top_card, state.current_color):
+                                success, msg = state.play_card(state.current_player, i)
+                                if success:
                                     show_hand = False
-                                else:
-                                    state.message = 'Carte non jouable'
+                                    selected_idx = None
+                            else:
+                                state.message = 'Carte non jouable'
 
             elif event.type == pygame.KEYDOWN and show_hand:
-                # Draw card
-                if event.key == pygame.K_d:
-                    state.draw_cards(state.current_player)
-                    show_hand = False
                 # Wild color choice
-                elif event.key in (pygame.K_r, pygame.K_g, pygame.K_b, pygame.K_y) and selected_idx is not None:
+                if event.key in (pygame.K_r, pygame.K_g, pygame.K_b, pygame.K_y) and selected_idx is not None:
                     keymap = {pygame.K_r:'rouge', pygame.K_g:'vert', pygame.K_b:'bleu', pygame.K_y:'jaune'}
                     chosen_color = keymap[event.key]
-                    state.play_card(state.current_player, selected_idx, chosen_color)
-                    selected_idx = None
-                    chosen_color = None
-                    show_hand = False
+                    success, msg = state.play_card(state.current_player, selected_idx, chosen_color)
+                    if success:
+                        selected_idx = None
+                        chosen_color = None
+                        show_hand = False
 
         # Player buttons
         pygame.draw.rect(screen, (70,70,200), btn_player0)
@@ -269,11 +281,18 @@ def run_game():
         pygame.draw.rect(screen, (200,0,0), btn_quit)
         screen.blit(font.render('Quitter', True, (255,255,255)), (btn_quit.x+5, btn_quit.y+5))
 
+        # Draw button (when hand is shown)
+        if show_hand:
+            color = (50,150,50) if state.pending_draw > 0 or not state.has_playable_card(state.current_player) else (100,100,100)
+            pygame.draw.rect(screen, color, btn_draw)
+            draw_text = f"Piocher ({state.pending_draw})" if state.pending_draw > 0 else "Piocher"
+            screen.blit(font.render(draw_text, True, (255,255,255)), (btn_draw.x+10, btn_draw.y+5))
+
         # Top card display
         if state.top_card:
             top_surf = draw_card_surface(state.top_card)
             screen.blit(top_surf, (SCREEN_W//2 - CARD_W//2, SCREEN_H//2 - CARD_H//2))
-            screen.blit(font.render(f'Couleur actuelle: {state.current_color}', True, (255,255,255)), (SCREEN_W//2 - 80, SCREEN_H//2 + CARD_H//2 + 6))
+            screen.blit(font.render(f'Couleur: {state.current_color}', True, (255,255,255)), (SCREEN_W//2 - 80, SCREEN_H//2 + CARD_H//2 + 6))
 
         # Active player's hand
         if show_hand:
@@ -283,13 +302,11 @@ def run_game():
                 surf = draw_card_surface(card)
                 rect = surf.get_rect(topleft=(start_x + i*(CARD_W+10), SCREEN_H - CARD_H - 20))
                 screen.blit(surf, rect.topleft)
-                idx_txt = font.render(str(i), True, (0,0,0))
-                screen.blit(idx_txt, (rect.x+4, rect.y+CARD_H-22))
 
         # UI info
         screen.blit(font.render(f"Joueur 1 cartes: {len(state.hands[0])}", True, (255,255,255)), (20,20))
         screen.blit(font.render(f"Joueur 2 cartes: {len(state.hands[1])}", True, (255,255,255)), (20,50))
-        screen.blit(font.render(f"Tour en cours: Player {state.current_player + 1}", True, (255,255,0)), (20,80))
+        screen.blit(font.render(f"Tour: Joueur {state.current_player + 1}", True, (255,255,0)), (20,80))
         screen.blit(font.render(f"Message: {state.message}", True, (255,255,0)), (20,110))
 
         pygame.display.flip()
