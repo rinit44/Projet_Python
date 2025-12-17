@@ -67,4 +67,27 @@ pip install pygame
 ```
 
 ---
+## Conclusion – Dual UNO
+ 
+**Succès :**  
+Le projet Dual UNO a permis de créer un jeu fonctionnel et fluide jouable à deux, respectant les règles officielles du UNO. Nous avons réussi à développer une interface graphique claire avec Pygame et à gérer correctement la logique des cartes et des tours de jeu.
 
+---
+
+**Échecs :**  
+Certaines fonctionnalités n’ont pas été implémentées, comme la carte « changement de sens », qui aurait pu enrichir le jeu mais a été volontairement laissée de côté. Quelques ajustements graphiques et optimisations du code restent possibles.
+
+---
+
+**Potentialités :**  
+Le projet peut évoluer vers un mode multijoueur en ligne, l’ajout d’une IA, ou des améliorations visuelles et sonores. Cette expérience ouvre la voie à d’autres projets de jeux en Python et à une meilleure maîtrise de la programmation événementielle et graphique.
+
+---
+
+**Obstacles :**  
+La principale difficulté a été la gestion des cartes spéciales et de la logique de pioche/jeu, ainsi que la coordination entre les membres du groupe pour structurer le code. La gestion du temps et l’organisation du projet ont également été des défis à surmonter.
+
+---
+
+**Conclusion personnelle et de groupe :**  
+Cette expérience a été très enrichissante, tant sur le plan technique que collaboratif. Elle nous a permis de travailler efficacement en groupe, de renforcer notre autonomie, et de mieux comprendre les exigences liées à la conception d’un projet logiciel complet.
