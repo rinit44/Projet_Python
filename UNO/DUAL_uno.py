@@ -1,7 +1,8 @@
-# Author: Rinit Krasniqi, Rodrigo Fernandes Valente, claude.ai
-# Date: 05.12.2025
-# Name: uno.py
-# Description: A simple local two-player UNO game using Pygame
+# Author : Rinit Krasniqi, Rodrigo Fernandes Valente
+# co-author : claude.ai
+# Date : 05.12.2025
+# Name : uno.py
+# Description : A simple local two-player UNO game using Pygame
 
 import pygame
 import random
