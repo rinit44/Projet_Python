@@ -1,4 +1,4 @@
-# Author: Rinit Krasniqi, Rodrigo Fernandes Valente
+# Author: Rinit Krasniqi, Rodrigo Fernandes Valente, claude.ai
 # Date: 05.12.2024
 # Name: uno.py
 # Description: A simple local two-player UNO game using Pygame
@@ -442,7 +442,7 @@ def run_game():
                             if card.is_wild():
                                 # Wild card: need to choose color
                                 selected_idx = i
-                                state.message = 'Choisissez une couleur: R(ouge) G(vert) B(leu) Y(aune)'
+                                state.message = 'Choisissez une couleur: R(ouge) V(ert) B(leu) J(aune)'
                             elif card.matches(state.top_card, state.current_color):
                                 # Play the card
                                 success, msg = state.play_card(state.current_player, i)
@@ -455,12 +455,12 @@ def run_game():
 
             elif event.type == pygame.KEYDOWN and show_hand:
                 # Color selection for wild cards (R, G, B, Y keys)
-                if event.key in (pygame.K_r, pygame.K_g, pygame.K_b, pygame.K_y) and selected_idx is not None:
+                if event.key in (pygame.K_r, pygame.K_v, pygame.K_b, pygame.K_j) and selected_idx is not None:
                     keymap = {
                         pygame.K_r: 'rouge',
-                        pygame.K_g: 'vert',
+                        pygame.K_v: 'vert',
                         pygame.K_b: 'bleu',
-                        pygame.K_y: 'jaune'
+                        pygame.K_j: 'jaune'
                     }
                     chosen_color = keymap[event.key]
                     success, msg = state.play_card(state.current_player, selected_idx, chosen_color)
