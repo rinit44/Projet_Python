@@ -4,6 +4,7 @@
 
 * Rodrigo Fernandes Valente
 * Rinit Krasniqi
+* Co-réal : Claude.ai
 
 ## Nom du Projet :
 
