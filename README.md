@@ -27,7 +27,7 @@ L’objectif est de proposer une version complète et fluide du UNO classique av
 * +4
 * Changement de couleur
 * Passer son tour
-* !!! la carte spécial changer de sens n'a volontairement pas été mise car on a trouvé que ça n'avait pas de sens étant donner que le jeu et fait pour 2 joueurs.
+* !!! la carte spécial changer de sens n'a volontairement pas été mise car on a trouvé que ce n'était pas pertinent pour un UNO à 2 joueurs.
 
 ## Interface graphique Pygame :
 
